@@ -1,4 +1,4 @@
-from random import weibullvariate
+
 import requests
 import json
 import re
@@ -167,30 +167,29 @@ def main():
             # print(vob)
             line = [""] * 6
             
-            # if res_dict["zh_res"] == 0:
-            #     line[0] = vob
-            #     # line[1] = res_dict["liju_en"][0]
-            #     # line[2] = res_dict["liju_en"][1:]
-            #     # line[3] = res_dict["zh_res"]
-            #     # line[4] = res_dict['liju_zh'][0] 
-            #     # line[5] = res_dict['liju_zh'][1:]
-            # else:
-
-            len_liju =len(res_dict['liju_zh'])
-            if  len_liju > 1:
+            if res_dict["zh_res"] == 0:
                 line[0] = vob
-                line[1] = res_dict["liju_en"][0]
-                line[2] = res_dict["liju_en"][1]
-                line[3] = res_dict["zh_res"]
-                line[4] = res_dict['liju_zh'][0] 
-                line[5] = res_dict['liju_zh'][1]
-            elif len_liju ==1:
-                line[0] = vob
-                line[1] = res_dict["liju_en"][0]
+                # line[1] = res_dict["liju_en"][0]
                 # line[2] = res_dict["liju_en"][1:]
-                line[3] = res_dict["zh_res"]
-                line[4] = res_dict['liju_zh'][0] 
+                # line[3] = res_dict["zh_res"]
+                # line[4] = res_dict['liju_zh'][0] 
                 # line[5] = res_dict['liju_zh'][1:]
+            else:
+                len_liju =len(res_dict['liju_zh'])
+                if  len_liju > 1:
+                    line[0] = vob
+                    line[1] = res_dict["liju_en"][0]
+                    line[2] = res_dict["liju_en"][1]
+                    line[3] = res_dict["zh_res"]
+                    line[4] = res_dict['liju_zh'][0] 
+                    line[5] = res_dict['liju_zh'][1]
+                elif len_liju ==1:
+                    line[0] = vob
+                    line[1] = res_dict["liju_en"][0]
+                    # line[2] = res_dict["liju_en"][1:]
+                    line[3] = res_dict["zh_res"]
+                    line[4] = res_dict['liju_zh'][0] 
+                    # line[5] = res_dict['liju_zh'][1:]
                 
 
             lines.append(line)
