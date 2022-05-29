@@ -3,8 +3,11 @@
 > **## 参考资料：**
 >
 > [pandas 读取excel、一次性写入多个sheet、原有文件追加sheet](https://blog.csdn.net/qq_35318838/article/details/104692846)
+> 
 > [Pandas 获取EXCEL 各sheet name和内容的两种方法](https://blog.csdn.net/qq_35499652/article/details/120703525)
+> 
 > [python入门-爬取百度翻译中的双语例句](https://www.jianshu.com/p/92478814d217)
+> 
 > [python爬虫高级教程，JS逆向之百度翻译](https://blog.csdn.net/Python_sn/article/details/109730791)
 
 
@@ -40,7 +43,7 @@
 - 示例：
 
   | Term                    | 中文翻译     | 英文例句                                                     | 中文例句                                                     |
-  | ----------------------- | ------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+  | ----------------------- | ----------------- | --------------------------------------------------------- | ------------------------------------------------------------ |
   | adult training program  | 成人培训计划 |                                                              |                                                              |
   | application for payment | 付款申请书   | Much to my regret that we have made repeated application for payment of  this amount without avail. | 我们多次去函请求结清这笔账款而无任何结果，为此我们非常遗憾。 |
   | capable of undertaking  | 能够承担     | All of this ensures that SEAL members are physically and mentally as  tough as nails and capable of undertaking the most difficult operations in  the world , wherever that may be. | 所有的训练确保了海豹突击队员拥有如钉子一般坚韧的身心，无论在世界的任何地方都能够承担起最困难的任务。 |
@@ -61,7 +64,7 @@
 
 2. 安装依赖库
 
-   ```spython
+   ```cmd
    pip install PyExecJS
    pip install tqdm
    pip intsll pandass
@@ -90,7 +93,7 @@
 
 5. 运行`main.py`文件
 
-   ```python
+   ```cmd
    python main.py
    ```
 
