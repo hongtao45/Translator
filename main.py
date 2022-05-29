@@ -1,7 +1,6 @@
 
 from getTranslation import getTranslation
 from tqdm import trange
-
 import pandas as pd
 
 
@@ -51,7 +50,6 @@ def main(words, result):
 
 if __name__ == '__main__':
 
-    # 正式代码
     words =r"./RAW_data.xlsx"
     result = r"./trans_res.xlsx"
     main(words, result)
