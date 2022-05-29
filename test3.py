@@ -5,11 +5,8 @@ import re
 import execjs
 import urllib
 import time
-from tqdm import tqdm, trange
 
-import pandas as pd
-
-def getTranslation(source = 'machine'):
+def getTranslation_sentence(source = 'machine'):
     '''
     input:
         source: 待翻译的单词，句子
@@ -19,8 +16,7 @@ def getTranslation(source = 'machine'):
         liju_zh_res : list 中文例句
     '''
     zh_res = ""
-    liju_en_res = []
-    liju_zh_res = []
+
 
     # headers = {
     #     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36",
@@ -95,147 +91,21 @@ def getTranslation(source = 'machine'):
     result = json.loads(translate_result.text)
     # print(translate_result.text)
 
-    # print("翻译结果:{}".format(result["trans_result"]["data"][0]["dst"]))
-    try:
-        zh_res =result["trans_result"]["data"][0]["dst"]
     
-        # print(lines)
-        ### line: 每一组句子，包含一句中文和一句英文
-        ### sentences: 每个句子
-        ### sentence: 句子中的每个词；格式：['The', 'w_0', 'w_0', 0, ' ']
-
-        # print('-----双语例句-----')
-
-        double = result["liju_result"]['double']
-        if double != "":
-            lines = json.loads(result["liju_result"]['double'])
-            is_english = True
-            for line in lines:
-                # print(line)
-                for sentences in line:
-                    # print(sentences)
-                    if isinstance(sentences, list):
-                        s = ""
-                        # print(sentences)
-                        for i, sentence in enumerate(sentences): # 组词成句
-                            if is_english:
-                                if i > len(sentences) - 3:
-                                    s += sentence[0]
-                                else:
-                                    s += sentence[0] + " "
-                            else:
-                                s += sentence[0]
-                        
-                        s.encode("gbk", 'ignore').decode("gbk", "ignore")
-                        if is_english:
-                            # print(s, file=f_english)
-                            # print(s)
-                            liju_en_res.append(s) #! 英文例句
-                            is_english = False
-                        else:
-                            # print(s, file=f_chinese)
-                            # print(s)
-                            liju_zh_res.append(s) #! 中文例句
-                            is_english = True
-
-                        # print(s)
-                        # print()
-                        s = ""
+    zh_res =result["trans_result"]["data"][0]["dst"]
     
-    except:
-        zh_res =""
-        liju_en_res = []
-        liju_zh_res =[]
-
-    return dict(zh_res=zh_res, liju_en=liju_en_res, liju_zh=liju_zh_res)
-
-
-
-def main():
     
-    data = pd.ExcelFile(r"./Glossary template - APG 5885 - Sem 1, 2021 - SEU.xlsx")
-    writer = pd.ExcelWriter("trans_res.xlsx", mode='w') # a 已有文件添加 w 新建/覆盖 修改
-
-
-    sheets = data.sheet_names
-    # 筛选
-    
-    sheets_exp = sheets[0:4]
-    sheets_exp = sheets[4:]
-    sheets_exp = sheets # 全部
- 
-    for name in sheets_exp:
-        df = data.parse(sheet_name= name, header= 2)
-        vobs = df.iloc[:, 0] # 第一列
-        lines = []
-        col = df.columns.to_list()
-
-        w_rang = trange(len(vobs))
-        w_rang.set_description(desc=name)
-        for i in w_rang: # 每个单词
-            vob = vobs[i]
-            res_dict = getTranslation(vob)
-            # print(vob)
-            line = [""] * 6
-            
-            if len(res_dict["zh_res"]) == 0:
-                line[0] = vob
-                # print("==0") # 测试了，会进到这里面的 之前的 try except 触发过
-                # line[1] = res_dict["liju_en"][0]
-                # line[2] = res_dict["liju_en"][1:]
-                # line[3] = res_dict["zh_res"]
-                # line[4] = res_dict['liju_zh'][0] 
-                # line[5] = res_dict['liju_zh'][1:]
-            else:
-                len_liju =len(res_dict['liju_zh'])
-                if  len_liju > 1:
-                    line[0] = vob
-                    line[1] = res_dict["liju_en"][0]
-                    line[2] = "和".join(res_dict["liju_en"][1:])
-                    line[3] = res_dict["zh_res"]
-                    line[4] = res_dict['liju_zh'][0] 
-                    line[5] = "AND".join(res_dict['liju_zh'][1:])
-                elif len_liju ==1:
-                    line[0] = vob
-                    line[1] = res_dict["liju_en"][0]
-                    # line[2] = res_dict["liju_en"][1:]
-                    line[3] = res_dict["zh_res"]
-                    line[4] = res_dict['liju_zh'][0] 
-                    # line[5] = res_dict['liju_zh'][1:]
-                else:
-                    line[0] = vob
-                    # line[1] = res_dict["liju_en"][0]
-                    # line[2] = res_dict["liju_en"][1:]
-                    line[3] = res_dict["zh_res"]
-                    # line[4] = res_dict['liju_zh'][0] 
-                    # line[5] = res_dict['liju_zh'][1:]
-
-            lines.append(line)
-        
-        data_res = pd.DataFrame(lines, columns=col)
-        # data_res.to_csv('trans_res.csv')
-
-        data_res.to_excel(writer, sheet_name=name, index=None)
-        
-        writer.save()
-
-    
-    writer.close()
+    return zh_res
 
 
 def test_trans():
     
-    vobs = ["application for payment", "remote area allowance"]
-    for vob in vobs:
-        res_dict = getTranslation(vob)
-        print(res_dict)
+    sentence = "application"
+    res = getTranslation_sentence(sentence)
+    print(res)
 
 
 if __name__ == '__main__':
     
     # 测试翻译代码
     test_trans()
-
-    # 全部代码
-    # main()
-
